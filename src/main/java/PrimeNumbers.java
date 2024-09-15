@@ -5,13 +5,14 @@ public class PrimeNumbers {
     private static final Scanner scanner = new Scanner(System.in);
     private static int[] vector;
     private static int[] vectorPrimo;
+
     public static void main(String[] args) {
         iniciarPrograma();
     }
 
     public static void menu() {
         System.out.println("\n|||Menú|||\n");
-        System.out.println("1.- Rellenar vector con números enteros ");
+        System.out.println("1.- Rellenar vector con números enteros");
         System.out.println("2.- Mostrar vector con los números incorporados");
         System.out.println("3.- Agregar los números primos que se encontraban en ese vector en otro");
         System.out.println("4.- Mostrar el nuevo vector con los números primos");
@@ -25,7 +26,7 @@ public class PrimeNumbers {
             menu();
             opcion = solicitarEntero("Ingrese su opción: ");
             procesarOpcion(opcion);
-        } while ( opcion != 6);
+        } while (opcion != 6);
         scanner.close();
     }
 
@@ -35,9 +36,13 @@ public class PrimeNumbers {
                 System.out.print(mensaje);
                 int numero = scanner.nextInt();
                 scanner.nextLine(); // Consumir el salto de línea pendiente
-                return numero;
+                if (numero >= 0) {
+                    return numero;
+                } else {
+                    System.out.println("Por favor, ingrese un número entero positivo.");
+                }
             } catch (InputMismatchException e) {
-                System.out.println("Por favor, ingrese un número entero válido");
+                System.out.println("Por favor, ingrese un número entero válido.");
                 scanner.nextLine(); // Consumir la entrada inválida
             }
         }
@@ -64,7 +69,7 @@ public class PrimeNumbers {
                 System.out.println("Saliendo del programa...");
                 break;
             default:
-                System.out.println("Opción inválida. intente de nuevo.");
+                System.out.println("Opción inválida. Intente de nuevo.");
         }
     }
 
@@ -74,8 +79,7 @@ public class PrimeNumbers {
 
     public static void rellenarArray(int[] numeros) {
         Random random = new Random();
-
-        for ( int i = 0; i < numeros.length ; i++) {
+        for (int i = 0; i < numeros.length; i++) {
             numeros[i] = random.nextInt(1000);
         }
     }
@@ -93,7 +97,6 @@ public class PrimeNumbers {
         }
     }
 
-
     public static boolean esPrimo(int numero) {
         if (numero <= 1) {
             return false;
@@ -107,27 +110,16 @@ public class PrimeNumbers {
     }
 
     public static int[] sacarPrimos(int[] numeros) {
-        List<Integer> primos = new ArrayList<>();
-
-        for (int numero : numeros) {
-            if (esPrimo(numero)) {
-                primos.add(numero);
-            }
-        }
-        // Convertir la lista de primos a un array
-        int[] arrayPrimos = new int[primos.size()];
-        for (int i = 0; i < primos.size(); i++) {
-            arrayPrimos[i] = primos.get(i);
-        }
-
-        return arrayPrimos;
+        return Arrays.stream(numeros)
+                .filter(PrimeNumbers::esPrimo)
+                .toArray();
     }
 
     public static void opcion1() {
-        int longitudVector = solicitarEntero("Cuántos números quieres que tenga el vector?: ");
+        int longitudVector = solicitarEntero("¿Cuántos números quieres que tenga el vector?: ");
         vector = crearVector(longitudVector);
         rellenarArray(vector);
-        System.out.println("vector creado y rellenado exitosamente.");
+        System.out.println("Vector creado y rellenado exitosamente.");
     }
 
     public static void opcion2() {
@@ -139,8 +131,12 @@ public class PrimeNumbers {
     }
 
     public static void opcion3() {
-        vectorPrimo = sacarPrimos(vector);
-        System.out.println("vector rellenado solo con números primos exitosamente.");
+        if (vector == null || vector.length == 0) {
+            System.out.println("El vector está vacío o no ha sido creado.");
+        } else {
+            vectorPrimo = sacarPrimos(vector);
+            System.out.println("Vector de primos creado exitosamente.");
+        }
     }
 
     public static void opcion4() {
@@ -152,10 +148,8 @@ public class PrimeNumbers {
     }
 
     public static void opcion5() {
-        vector = new int[0];
-        vectorPrimo = new int[0];
+        vector = null;
+        vectorPrimo = null;
         System.out.println("Datos de ambos vectores borrados exitosamente.");
     }
-
-
 }
