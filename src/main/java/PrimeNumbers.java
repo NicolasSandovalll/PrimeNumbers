@@ -54,13 +54,19 @@ public class PrimeNumbers {
                 opcion1();
                 break;
             case 2:
-                opcion2();
+                if (verificarVector(vector, "Primero debes crear y rellenar el vector (opción 1).")) {
+                    opcion2();
+                }
                 break;
             case 3:
-                opcion3();
+                if (verificarVector(vector, "Primero debes crear y rellenar el vector (opción 1).")) {
+                    opcion3();
+                }
                 break;
             case 4:
-                opcion4();
+                if (verificarVector(vectorPrimo, "Primero debes crear el vector de números primos (opción 3).")) {
+                    opcion4();
+                }
                 break;
             case 5:
                 opcion5();
@@ -123,33 +129,29 @@ public class PrimeNumbers {
     }
 
     public static void opcion2() {
-        if (vector == null || vector.length == 0) {
-            System.out.println("El vector está vacío o no ha sido creado.");
-        } else {
-            mostrarVectorAlineadosHorizontalmente(vector);
-        }
+        mostrarVectorAlineadosHorizontalmente(vector);
     }
 
     public static void opcion3() {
-        if (vector == null || vector.length == 0) {
-            System.out.println("El vector está vacío o no ha sido creado.");
-        } else {
-            vectorPrimo = sacarPrimos(vector);
-            System.out.println("Vector de primos creado exitosamente.");
-        }
+        vectorPrimo = sacarPrimos(vector);
+        System.out.println("Vector de primos creado exitosamente.");
     }
 
     public static void opcion4() {
-        if (vectorPrimo == null || vectorPrimo.length == 0) {
-            System.out.println("El vector con números primos está vacío o no ha sido creado.");
-        } else {
-            mostrarVectorAlineadosHorizontalmente(vectorPrimo);
-        }
+        mostrarVectorAlineadosHorizontalmente(vectorPrimo);
     }
 
     public static void opcion5() {
         vector = null;
         vectorPrimo = null;
         System.out.println("Datos de ambos vectores borrados exitosamente.");
+    }
+
+    public static boolean verificarVector(int[] vector, String mensajeError) {
+        if (vector == null || vector.length == 0) {
+            System.out.println(mensajeError);
+            return false;
+        }
+        return true;
     }
 }
